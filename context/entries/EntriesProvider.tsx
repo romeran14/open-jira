@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, useReducer } from 'react';
+import { FC, useReducer } from 'react';
 import { EntriesContext, entriesReducer } from './';
 import { Entry } from '../../interfaces';
 import { v4 as uuidv4 } from 'uuid';
@@ -35,22 +35,29 @@ const EntriesProvider: FC = ({ children }) => {
 
     const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE)
 
-    const addNewEntry = (description: string):void => {
-       const newEntry: Entry = {
+    const addNewEntry = (description: string): void => {
+        const newEntry: Entry = {
             _id: uuidv4(),
             description,
             createdAt: Date.now(),
             status: 'pending',
         }
-       // console.log(newEntry)
-        dispatch({ type:"[Entry] Add-Entry", payload:newEntry })
+        // console.log(newEntry)
+        dispatch({ type: "[Entry] Add-Entry", payload: newEntry })
     }
 
-  return (
+    const updateEntry = (entry: Entry) => {
+        console.log('Entri provider', entry)
+        //dispatch({type:'[Entry] Entry-Updated', payload:entry})
+        dispatch({ type: '[Entry] Entry-Updated', payload: entry })
+    }
+
+    return (
         <EntriesContext.Provider value={{
             ...state,
             //Methods
-            addNewEntry
+            addNewEntry,
+            updateEntry
         }}>
             {children}
         </EntriesContext.Provider>

@@ -3,6 +3,7 @@ import { Button, Box, TextField } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import { EntriesContext } from '../../context/entries';
+import { UIContext } from '../../context/ui';
 
 interface Props {
     prop?: string
@@ -10,13 +11,14 @@ interface Props {
 
 export const NewEntry: FC<Props> = () => {
 
-    const [isAdding, setIsAdding] = useState(false)
+ 
 
     const [inputValue, setinputValue] = useState('')
 
     const [touched, setTouched] = useState(false)
 
     const { addNewEntry } = useContext(EntriesContext)
+    const { isAddingEntry, setIsAddingEntry } = useContext(UIContext)
 
     const onTextFieldChanged = (e:ChangeEvent<HTMLInputElement>) =>{
        setinputValue( e.target.value )
@@ -27,7 +29,7 @@ export const NewEntry: FC<Props> = () => {
             return
         }
         addNewEntry(inputValue)
-        setIsAdding(false)
+        setIsAddingEntry(false)
         setTouched(false)
         setinputValue('')
      }
@@ -37,7 +39,7 @@ export const NewEntry: FC<Props> = () => {
         <>
             <Box sx={{ marginBottom: 2, paddingX: 1 }} >
                 {
-                    isAdding ? (<>
+                    isAddingEntry ? (<>
                         <TextField
                             fullWidth
                             sx={{ marginTop: 2, marginBottom: 1 }}
@@ -54,7 +56,7 @@ export const NewEntry: FC<Props> = () => {
                         <Box display={'flex'} justifyContent={'space-between'} >
                             <Button
                                 variant='outlined'
-                                onClick={()=>setIsAdding(false)}
+                                onClick={()=>setIsAddingEntry(false)}
                             >
                                 Cancelar
                             </Button>
@@ -74,7 +76,7 @@ export const NewEntry: FC<Props> = () => {
                         fullWidth
                         variant='outlined'
                         endIcon={<LibraryAddIcon />}
-                        onClick={()=>setIsAdding(true)}
+                        onClick={()=>setIsAddingEntry(true)}
                        >Agregar Tarea
                     </Button>
 
