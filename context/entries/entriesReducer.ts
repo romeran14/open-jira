@@ -4,6 +4,7 @@ import { Entry } from '../../interfaces'
 type EntriesActionType =
     | { type: '[Entry] Add-Entry', payload: Entry }
     | { type: '[Entry] Entry-Updated', payload: Entry }
+    | { type: '[Entry] Refresh-DATA', payload: Entry[] }
 
 export const entriesReducer = (state: EntriesState, action: EntriesActionType): EntriesState => {
     console.log("swich", action.payload)
@@ -28,7 +29,12 @@ export const entriesReducer = (state: EntriesState, action: EntriesActionType): 
                     return entry
                 })
             }
-
+            case '[Entry] Refresh-DATA':
+                console.log('add entry')
+                return {
+                    ...state,
+                    entries: [ ...action.payload]
+                }
         default:
             console.log('default')
             return state

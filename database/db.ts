@@ -30,12 +30,14 @@ export const connect = async () => {
     }
 
 
-    await mongoose.connect('....')
+    await mongoose.connect(process.env.MONGO_URL || '')
     mongooConnection.isConnected = 1
     console.log('conectando a mongoDB', '....')
 }
 
 export const disconnect = async () => {
+
+    if ( process.env.NODE_ENV === 'development' ) return;
 
     if ( mongooConnection.isConnected !== 0 ) return
 

@@ -8,3 +8,10 @@ docker-compose up -d
 MongoDB URL Local:
 
 mongodb://localhost:27017/entriesdb
+
+#configurar las variables de entorno
+Renombrar el archivo __.env.template__a__.env__
+
+#Llenar la base de datos con informacion de prueba usando la siguiente ruta
+
+http://localhost:3000/api/seed
