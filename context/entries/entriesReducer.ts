@@ -7,20 +7,19 @@ type EntriesActionType =
     | { type: '[Entry] Refresh-DATA', payload: Entry[] }
 
 export const entriesReducer = (state: EntriesState, action: EntriesActionType): EntriesState => {
-    console.log("swich", action.payload)
+
     switch (action.type) {
         case '[Entry] Add-Entry':
-            console.log('add entry')
+
             return {
                 ...state,
                 entries: [...state.entries, action.payload]
             }
         case '[Entry] Entry-Updated':
-            console.log('AQUI', action.payload)
+
             return {
                 ...state,
                 entries: state.entries.map(entry => {
-                    console.log('AQUI veeeee')
                     if (entry._id === action.payload._id) {
                         entry.status = action.payload.status;
                         entry.description = action.payload.description;
@@ -30,13 +29,12 @@ export const entriesReducer = (state: EntriesState, action: EntriesActionType): 
                 })
             }
             case '[Entry] Refresh-DATA':
-                console.log('add entry')
+
                 return {
                     ...state,
                     entries: [ ...action.payload]
                 }
         default:
-            console.log('default')
             return state
     }
 

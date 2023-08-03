@@ -10,9 +10,7 @@ interface Props {
 }
 
 export const NewEntry: FC<Props> = () => {
-
  
-
     const [inputValue, setinputValue] = useState('')
 
     const [touched, setTouched] = useState(false)
