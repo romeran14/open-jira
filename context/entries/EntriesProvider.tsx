@@ -3,6 +3,7 @@ import { EntriesContext, entriesReducer } from './';
 import { Entry } from '../../interfaces';
 import entriesApi from '../../entriesApi'
 import { useSnackbar } from 'notistack'
+import { useRouter } from 'next/router';
 
 export interface EntriesState {
     entries: Entry[];
@@ -17,6 +18,8 @@ const EntriesProvider: FC = ({ children }) => {
 
     const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE)
     const { enqueueSnackbar } = useSnackbar()
+
+    const router = useRouter()
 
     const addNewEntry = async (description: string) => {
         const { data } = await entriesApi.post<Entry>('/entries', { description })
@@ -44,8 +47,18 @@ const EntriesProvider: FC = ({ children }) => {
         } catch (error) {
             console.log(error)
         }
+    }
 
-        //dispatch({type:'[Entry] Entry-Updated', payload:entry})
+    const deleteEntry = async ({ _id }: Entry) => {
+
+        try {
+            const { data } = await entriesApi.delete<Entry>(`/entries/${_id}`)
+            dispatch({ type: '[Entry] Entry-Deleted', payload: data })
+            
+            router.replace('/')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const refreshEntries = async () => {
@@ -63,7 +76,8 @@ const EntriesProvider: FC = ({ children }) => {
             ...state,
             //Methods
             addNewEntry,
-            updateEntry
+            updateEntry,
+            deleteEntry
         }}>
             {children}
         </EntriesContext.Provider>

@@ -21,7 +21,7 @@ const EntryPage: FC<Props> = ( { entry } ) => {
     const [status, setStatus] = useState<EntryStatus>( entry.status )
     const [touched, setTouched] = useState(false)
 
-    const {updateEntry} = useContext(EntriesContext)
+    const { updateEntry, deleteEntry} = useContext(EntriesContext)
 
    const isNotValid = useMemo(() => inputValue.length <= 0 && touched, [inputValue, touched])
 
@@ -43,6 +43,10 @@ const EntryPage: FC<Props> = ( { entry } ) => {
         }
 
         updateEntry( updatedEntry, true )
+    }
+
+    const onDelete = () => {
+        deleteEntry(entry)
     }
 
     return (
@@ -95,7 +99,9 @@ const EntryPage: FC<Props> = ( { entry } ) => {
                     </Card>
                 </Grid>
             </Grid>
-            <IconButton sx={{
+            <IconButton
+            onClick={ onDelete }
+            sx={{
                 position: 'fixed',
                 bottom: 30,
                 right: 30,
